@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CodeChef 🍳 - Cook Smart, Eat Awesome!</title>
+  <meta name="description" content="Type what ingredients you have, AI instantly gives you hostel recipes you can actually cook right now!">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <style>
+/* ==========================================================================
+   CodeChef Mobile Design System (Matching High-End Aesthetic)
+   Palette: Warm Cream, Electric Orange (#FF5722), Rust Red (#D84315), Warm White
+   ========================================================================== */
+
+:root {
+  --bg-cream: #FAF5EE;
+  --bg-cream-subtle: #F3EBE0;
+  --card-bg: #FFFFFF;
+  
+  --orange-primary: #FF5722;
+  --orange-hover: #E64A19;
+  --orange-light: #FFF0EB;
+  --orange-gradient: linear-gradient(135deg, #FF6B35 0%, #FF3D00 50%, #D84315 100%);
+  
+  --rust-dark: #3E1305;
+  --text-dark: #2C1810;
+  --text-muted: #7A6960;
+  --text-light: #A3938B;
+  
+  --border-light: #EFE4D8;
+  --border-active: #FF5722;
+  
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  
+  --shadow-sm: 0 4px 12px rgba(106, 27, 7, 0.04);
+  --shadow-md: 0 8px 24px rgba(106, 27, 7, 0.08);
+  --shadow-lg: 0 16px 36px rgba(106, 27, 7, 0.12);
+  --shadow-orange: 0 10px 28px rgba(255, 87, 34, 0.35);
+  
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #160A06;
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  line-height: 1.4;
+  overflow-x: hidden;
+}
+
+.app-viewport {
+  width: 100%;
+  max-width: 440px;
+  min-height: 100vh;
+  background-color: var(--bg-cream);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   LANDING HOME PAGE STYLES (MATCHING USER MOCKUP)
+   ========================================================================== */
+.landing-screen {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #FFF3EC 0%, #FAF5EE 80%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 40px;
+  position: relative;
+  z-index: 10;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Floating Elements */
+.floating-element {
+  position: absolute;
+  font-size: 26px;
+  opacity: 0.35;
+  pointer-events: none;
+  animation: floatAnim 6s infinite ease-in-out;
+}
+
+.float-potato { top: 6%; right: 15%; animation-delay: 0s; }
+.float-leaf { top: 12%; right: 40%; animation-delay: 1.5s; }
+.float-noodle { top: 14%; right: 6%; animation-delay: 3s; }
+.float-cheese { bottom: 25%; right: 6%; animation-delay: 2.2s; }
+.float-tomato { bottom: 18%; left: 4%; animation-delay: 4s; }
+
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(10deg); }
+}
+
+/* Top Navigation Bar */
+.landing-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.brand-badge-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-3d-icon {
+  width: 46px;
+  height: 46px;
+  background: var(--orange-gradient);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(255, 87, 34, 0.4), inset 0 2px 3px rgba(255,255,255,0.4);
+  font-size: 24px;
+}
+
+.brand-text-box h2 {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--rust-dark);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.brand-text-box h2 span {
+  color: var(--orange-primary);
+}
+
+.brand-text-box p {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.circle-icon-btn {
+  width: 40px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--rust-dark);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+/* Hero Section */
+.hero-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--orange-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+
+.hero-tag-badge span.dot {
+  width: 7px;
+  height: 7px;
+  background: var(--orange-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--orange-primary);
+}
+
+.hero-content-wrapper {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.hero-main-heading {
+  font-family: var(--font-heading);
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--rust-dark);
+  letter-spacing: -1px;
+  line-height: 1.08;
+  margin-bottom: 12px;
+}
+
+.hero-main-heading .text-accent {
+  color: var(--orange-primary);
+  background: linear-gradient(135deg, #FF6B35, #D84315);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtext {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  max-width: 320px;
+  line-height: 1.45;
+}
+
+/* 3D Big Pan & Egg Graphic */
+.hero-graphic-box {
+  width: 140px;
+  height: 140px;
+  background: var(--orange-gradient);
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 16px 36px rgba(255, 61, 0, 0.4), inset 0 3px 6px rgba(255,255,255,0.4);
+  transform: rotate(-6deg);
+  animation: logoFloat 4s infinite ease-in-out;
+  position: relative;
+}
+
+.hero-graphic-box::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 46px;
+  border: 1.5px dashed rgba(255, 87, 34, 0.3);
+  pointer-events: none;
+}
+
+.hero-graphic-box .big-emoji {
+  font-size: 72px;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+}
+
+/* 3 Feature Cards Grid */
+.hero-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.feat-card-sm {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feat-card-sm .feat-icon-circle {
+  width: 42px;
+  height: 42px;
+  background: #FFF3EB;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.feat-card-sm h4 {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--rust-dark);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.feat-card-sm p {
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* CTA Launch Button */
+.cta-wrapper {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.btn-cta-launch {
+  width: 100%;
+  padding: 18px 24px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--orange-gradient);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: var(--shadow-orange);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-cta-launch:active {
+  transform: scale(0.96);
+}
+
+.cta-info {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* How It Works Section */
+.how-it-works-section {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--rust-dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.how-steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  position: relative;
+}
+
+.step-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 8px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.step-card .step-icon-bg {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-cream-subtle);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 8px;
+}
+
+.step-card h5 {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--rust-dark);
+  margin-bottom: 2px;
+}
+
+.step-card p {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Popular Ingredients Quick Bar */
+.popular-bar-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.popular-header {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--rust-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.popular-pills {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.pop-pill {
+  background: var(--bg-cream-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================================
+   MAIN APP WINDOW STYLES
+   ========================================================================== */
+.main-app-screen {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 90px;
+  animation: slideInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--bg-cream-subtle) 100%);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--orange-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.icon-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--rust-dark);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+.app-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  margin-bottom: 14px;
+}
+
+.card-header h2 {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--rust-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-subtext {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-orange { color: var(--orange-primary); }
+.text-rust { color: var(--rust-dark); }
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-accent {
+  background: var(--orange-light);
+  color: var(--orange-primary);
+}
+
+.selected-counter {
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--rust-dark);
+  color: var(--bg-cream);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.equipment-chips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.chip-toggle {
+  background: var(--bg-cream);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chip-toggle.active {
+  background: var(--orange-light);
+  border-color: var(--orange-primary);
+  color: var(--rust-dark);
+  box-shadow: 0 3px 10px rgba(255, 87, 34, 0.15);
+}
+
+.chip-toggle:active {
+  transform: scale(0.96);
+}
+
+.chip-icon {
+  font-size: 16px;
+}
+
+.time-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-cream-subtle);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--rust-dark);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.segmented-control {
+  display: flex;
+  gap: 4px;
+}
+
+.segment {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.segment.active {
+  background: var(--rust-dark);
+  color: #FFFFFF;
+}
+
+.custom-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 18px;
+  color: var(--orange-primary);
+  pointer-events: none;
+}
+
+.custom-input-wrapper input {
+  width: 100%;
+  background: var(--bg-cream-subtle);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 38px 12px 42px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dark);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.custom-input-wrapper input:focus {
+  border-color: var(--orange-primary);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.15);
+}
+
+.btn-clear {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.search-bar {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.search-bar i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  background: var(--bg-cream-subtle);
+  font-size: 13px;
+  outline: none;
+}
+
+.search-bar input:focus {
+  border-color: var(--orange-primary);
+  background: #FFFFFF;
+}
+
+.category-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cat-pill {
+  white-space: nowrap;
+  background: var(--bg-cream);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cat-pill.active {
+  background: var(--rust-dark);
+  color: var(--bg-cream);
+  border-color: var(--rust-dark);
+}
+
+.ingredient-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.ing-badge {
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-cream-subtle);
+  border: 1.5px solid var(--border-light);
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ing-badge:active {
+  transform: scale(0.92);
+}
+
+.ing-badge.selected {
+  background: var(--orange-gradient);
+  border-color: var(--orange-primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+  transform: scale(1.03);
+}
+
+.ing-emoji {
+  font-size: 14px;
+}
+
+.sticky-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 440px;
+  padding: 12px 20px 20px;
+  background: linear-gradient(to top, var(--bg-cream) 80%, rgba(250, 245, 238, 0));
+  z-index: 30;
+}
+
+.btn-primary-gradient {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--orange-gradient);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: var(--shadow-orange);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary-gradient:active {
+  transform: scale(0.97);
+}
+
+.btn-sparkle {
+  font-size: 18px;
+  animation: pulseSparkle 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseSparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.25) rotate(15deg); }
+}
+
+.badge-count {
+  background: #FFFFFF;
+  color: var(--rust-dark);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+}
+
+.loading-container {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.spinner {
+  font-size: 40px;
+  animation: flipPan 1.2s infinite ease-in-out;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+@keyframes flipPan {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+.loading-text {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--rust-dark);
+}
+
+.loading-subtext {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.recipe-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.recipe-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.recipe-card:hover {
+  border-color: var(--orange-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.recipe-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.recipe-title {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--rust-dark);
+  line-height: 1.2;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-cream-subtle);
+  color: var(--rust-dark);
+}
+
+.tag-time { background: #FFF3E0; color: #E65100; }
+.tag-equip { background: #E8F5E9; color: #2E7D32; }
+.tag-match { background: var(--orange-light); color: var(--orange-primary); }
+
+.recipe-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.jugaad-box {
+  background: #FFF8E1;
+  border-left: 3px solid #FFC107;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #795548;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-view-steps {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--orange-primary);
+  background: var(--orange-light);
+  color: var(--orange-primary);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-view-steps:active {
+  background: var(--orange-primary);
+  color: #FFFFFF;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(44, 24, 16, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-sheet {
+  background: var(--bg-cream);
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 20px 20px 30px;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-sheet.modal-sm {
+  max-height: 70vh;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-handle {
+  width: 40px;
+  height: 5px;
+  background: var(--border-light);
+  border-radius: 10px;
+  margin: 0 auto 16px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  color: var(--rust-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cooking-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.step-item {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  border: 1px solid var(--border-light);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.step-num {
+  background: var(--rust-dark);
+  color: var(--bg-cream);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.timer-widget {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--orange-light);
+  border: 1px solid var(--orange-primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.timer-time {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--orange-primary);
+  min-width: 45px;
+}
+
+.timer-btn {
+  background: var(--orange-primary);
+  color: #FFFFFF;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-body label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--rust-dark);
+}
+
+.modal-body input {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-light);
+  font-size: 13px;
+  font-family: monospace;
+}
+
+.hint-text {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.demo-key-toggle {
+  margin-top: 6px;
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.btn-primary {
+  background: var(--rust-dark);
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: var(--bg-cream-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 11px;
+  border-radius: var(--radius-pill);
+}
+
+.btn-outline {
+  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Mobile View Wrapper -->
+  <div class="app-viewport">
+
+    <!-- ==========================================================================
+         LANDING HERO HOME PAGE (CODECHEF BRANDING)
+         ========================================================================== -->
+    <section class="landing-screen" id="landingScreen">
+      <!-- Floating Background Elements -->
+      <div class="floating-element float-potato">🥔</div>
+      <div class="floating-element float-leaf">🌿</div>
+      <div class="floating-element float-noodle">🍜</div>
+      <div class="floating-element float-cheese">🧀</div>
+      <div class="floating-element float-tomato">🍅</div>
+
+      <!-- Top Navigation Bar -->
+      <div class="landing-topbar">
+        <div class="brand-badge-box">
+          <div class="brand-3d-icon">🍳</div>
+          <div class="brand-text-box">
+            <h2>Code<span>Chef</span></h2>
+            <p>Cook from what you've got</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="circle-icon-btn" title="Notifications">
+            <i class="ri-notification-3-line"></i>
+          </button>
+          <button class="circle-icon-btn" title="Menu">
+            <i class="ri-menu-line"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Main Content -->
+      <div class="hero-content-wrapper">
+        <div class="hero-tag-badge">
+          <span class="dot"></span> HOSTEL HACKATHON EDITION
+        </div>
+
+        <h1 class="hero-main-heading">
+          Cook Smart,<br>
+          <span class="text-accent">Eat Awesome!</span>
+        </h1>
+
+        <p class="hero-subtext">
+          Zero grocery runs. Cook whatever random stuff is lying around in your room!
+        </p>
+      </div>
+
+      <!-- Big 3D Pan & Egg Hero Graphic Badge -->
+      <div class="hero-graphic-box">
+        <span class="big-emoji">🍳</span>
+      </div>
+
+      <!-- 3 Feature Cards Grid -->
+      <div class="hero-features-grid">
+        <div class="feat-card-sm">
+          <div class="feat-icon-circle">⚡</div>
+          <h4>No Extra Shopping</h4>
+          <p>Type 3 ingredients, get dish recipes instantly</p>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-circle">🫖</div>
+          <h4>Hostel Mode Equipped</h4>
+          <p>Kettle, Induction, Microwave & No-Gas Jugaad</p>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-circle">🧠</div>
+          <h4>AI Smart Substitutes</h4>
+          <p>Missing an item? AI gives instant jugaad swaps</p>
+        </div>
+      </div>
+
+      <!-- Main Action Launch Button -->
+      <div class="cta-wrapper">
+        <button class="btn-cta-launch" id="enterAppBtn">
+          <span>🌶️ Open CodeChef & Cook</span>
+          <i class="ri-arrow-right-line"></i>
+        </button>
+        <span class="cta-info">📥 100+ Ingredients Pre-loaded • Groq Llama 3.1 ⚡</span>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="how-it-works-section">
+        <div class="section-title">
+          <span>───</span> How It Works <span>───</span>
+        </div>
+
+        <div class="how-steps-row">
+          <div class="step-card">
+            <div class="step-icon-bg">🧊</div>
+            <h5>Add Ingredients</h5>
+            <p>Select or type items you have</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon-bg">🔍</div>
+            <h5>AI Finds Recipes</h5>
+            <p>Our AI finds recipes instantly</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon-bg">🍲</div>
+            <h5>Cook & Enjoy</h5>
+            <p>Hostel friendly step guide</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Popular Ingredients Quick Bar -->
+      <div class="popular-bar-card">
+        <div class="popular-header">
+          <span>Popular Ingredients</span> ⭐
+        </div>
+        <div class="popular-pills">
+          <div class="pop-pill" onclick="quickSelectPopular('Maggi / Instant Noodles')">🍜 Maggi</div>
+          <div class="pop-pill" onclick="quickSelectPopular('Aloo (Potato)')">🥔 Potato</div>
+          <div class="pop-pill" onclick="quickSelectPopular('Pyaaz (Onion)')">🧅 Onion</div>
+          <div class="pop-pill" onclick="quickSelectPopular('Eggs (Anda)')">🥚 Egg</div>
+          <div class="pop-pill" onclick="quickSelectPopular('Dahi (Yogurt)')">🥛 Dahi</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         MAIN APP WINDOW (CODECHEF INGREDIENT & RECIPE FINDER)
+         ========================================================================== -->
+    <div class="main-app-screen" id="mainAppScreen" style="display: none;">
+      
+      <!-- Header -->
+      <header class="app-header">
+        <div class="brand" id="brandHomeClick" title="Back to Home">
+          <div class="brand-badge-box">
+            <div class="brand-3d-icon" style="width:38px; height:38px; font-size:20px;">🍳</div>
+            <div class="brand-text-box">
+              <h2 style="font-size:19px;">Code<span style="color:var(--orange-primary)">Chef</span></h2>
+              <p style="font-size:10px;">⚡ AI Hostel Jugaad</p>
+            </div>
+          </div>
+        </div>
+        <button class="icon-btn" id="openKeyModal" title="API Key Settings">
+          <i class="ri-key-2-line"></i>
+        </button>
+      </header>
+
+      <!-- Main Content Container -->
+      <main class="app-content">
+
+        <!-- Hostel Mode & Equipment Constraints Section -->
+        <section class="card hostel-mode-card">
+          <div class="card-header">
+            <div class="title-with-badge">
+              <h2><i class="ri-flashlight-fill text-orange"></i> Hostel Mode</h2>
+              <span class="badge badge-accent">Hackathon Edition</span>
+            </div>
+            <p class="card-subtext">Filter recipes by your available room equipment</p>
+          </div>
+
+          <div class="equipment-chips">
+            <button class="chip-toggle active" data-equip="kettle">
+              <span class="chip-icon">🫖</span> Kettle
+            </button>
+            <button class="chip-toggle active" data-equip="induction">
+              <span class="chip-icon">🍳</span> Induction
+            </button>
+            <button class="chip-toggle" data-equip="microwave">
+              <span class="chip-icon">📻</span> Microwave
+            </button>
+            <button class="chip-toggle" data-equip="nogas">
+              <span class="chip-icon">⚡</span> No Gas
+            </button>
+          </div>
+
+          <div class="time-filter">
+            <span class="filter-label"><i class="ri-time-line"></i> Max Time:</span>
+            <div class="segmented-control">
+              <button class="segment active" data-time="any">Any</button>
+              <button class="segment" data-time="10">⚡ 10m</button>
+              <button class="segment" data-time="20">⏱️ 20m</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Custom Comma-Separated Input Section -->
+        <section class="card custom-input-card">
+          <div class="card-header">
+            <h2><i class="ri-edit-circle-line text-rust"></i> Quick Type Extra Items</h2>
+            <p class="card-subtext">Add anything missed below (comma separated)</p>
+          </div>
+          <div class="custom-input-wrapper">
+            <i class="ri-add-line input-icon"></i>
+            <input type="text" id="customIngredients" placeholder="e.g. Maggi masala, Dahi, Cheese, Kurkure..." autocomplete="off">
+            <button class="btn-clear" id="clearCustomInput" style="display: none;">
+              <i class="ri-close-circle-fill"></i>
+            </button>
+          </div>
+        </section>
+
+        <!-- 100+ Ingredient Selection Grid -->
+        <section class="card ingredients-card">
+          <div class="card-header flex-between">
+            <div>
+              <h2><i class="ri-shopping-basket-2-line text-orange"></i> Select What You Have</h2>
+              <p class="card-subtext">Tap items to toggle availability</p>
+            </div>
+            <div class="selected-counter" id="selectedCounter">0 selected</div>
+          </div>
+
+          <!-- Search & Filter Tabs -->
+          <div class="search-bar">
+            <i class="ri-search-line"></i>
+            <input type="text" id="searchIngredients" placeholder="Search 100+ veggies, masale, snacks...">
+          </div>
+
+          <!-- Category Nav Pills -->
+          <div class="category-scroll" id="categoryScroll">
+            <button class="cat-pill active" data-cat="all">🔥 All (100+)</button>
+            <button class="cat-pill" data-cat="veggies">🥬 Veggies & Herbs</button>
+            <button class="cat-pill" data-cat="masale">🌶️ Masale & Sauces</button>
+            <button class="cat-pill" data-cat="staples">🍚 Staples & Grains</button>
+            <button class="cat-pill" data-cat="dairy">🥛 Dairy & Eggs</button>
+            <button class="cat-pill" data-cat="snacks">🍿 Hostel Snacks</button>
+            <button class="cat-pill" data-cat="fruits">🍎 Fruits & Sweets</button>
+          </div>
+
+          <!-- Ingredient Items Grid -->
+          <div class="ingredient-grid" id="ingredientGrid">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+        </section>
+
+        <!-- Recipe Results View -->
+        <section class="card results-section" id="resultsSection" style="display: none;">
+          <div class="card-header flex-between">
+            <div>
+              <h2><i class="ri-restaurant-2-line text-orange"></i> Instant AI Recipes</h2>
+              <p class="card-subtext" id="resultsSubtext">Chef Llama 3.1 found matches!</p>
+            </div>
+            <button class="btn-sm btn-outline" id="resetSearchBtn">
+              <i class="ri-refresh-line"></i> Clear
+            </button>
+          </div>
+
+          <!-- Loading Skeleton -->
+          <div id="loadingSkeleton" class="loading-container" style="display: none;">
+            <div class="spinner">🍳</div>
+            <p class="loading-text">Chef Llama is cooking up Jugaad recipes...</p>
+            <span class="loading-subtext">Matching equipment & ingredients...</span>
+          </div>
+
+          <!-- Recipe List Output -->
+          <div id="recipeCardsContainer" class="recipe-cards-container">
+            <!-- Dynamic AI Cards Go Here -->
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Floating Sticky Bottom CTA Bar -->
+      <div class="sticky-bottom-bar">
+        <button class="btn-primary-gradient" id="generateBtn">
+          <span class="btn-sparkle">✨</span>
+          <span class="btn-text">Get Instant Recipes</span>
+          <span class="badge-count" id="btnCountBadge">0</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Cooking Step Modal with Countdown Timer -->
+    <div class="modal-overlay" id="recipeModal" style="display: none;">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <button class="modal-close" id="closeModalBtn"><i class="ri-close-line"></i></button>
+        
+        <div id="modalRecipeContent">
+          <!-- Dynamic Cooking Detail & Timer UI -->
+        </div>
+      </div>
+    </div>
+
+    <!-- API Key Settings Modal -->
+    <div class="modal-overlay" id="keyModal" style="display: none;">
+      <div class="modal-sheet modal-sm">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3><i class="ri-key-fill text-orange"></i> Groq API Key Settings</h3>
+          <p>Groq Model: <code>llama-3.1-8b-instant</code></p>
+        </div>
+        <div class="modal-body">
+          <label for="groqApiKeyInput">Enter Groq API Key:</label>
+          <input type="password" id="groqApiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
+          <p class="hint-text">Key is saved in browser storage. API calls go directly to <code>api.groq.com</code>.</p>
+          
+          <div class="demo-key-toggle">
+            <label class="switch-label">
+              <input type="checkbox" id="useMockFallback">
+              <span>Enable Instant Offline Fallback Demo Mode</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="closeKeyModal">Cancel</button>
+          <button class="btn-primary" id="saveKeyBtn">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

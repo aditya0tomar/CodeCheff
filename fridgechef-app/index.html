@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FridgeChef — AI Student Pantry & Recipe Generator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FFF8F0">
+</head>
+<body>
+
+  <div class="mobile-app-wrapper">
+
+    <!-- API Key Config Drawer -->
+    <div class="api-drawer" id="apiDrawer">
+      <h4>⚙️ Groq API Key Settings</h4>
+      <p>Using <code>llama-3.1-8b-instant</code>. Leave blank to use our instant offline recipe generator during live hackathon demos!</p>
+      <div class="api-input-wrap">
+        <input type="password" id="groqKeyInput" placeholder="gsk_..." />
+        <button class="save-key-btn" id="saveKeyBtn">Save</button>
+      </div>
+    </div>
+
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="brand-wrap">
+        <div class="brand-icon">🍳</div>
+        <div>
+          <div class="brand-title">Fridge<span>Chef</span></div>
+          <div class="brand-subtitle">AI Hostel Culinary Jugaad</div>
+        </div>
+      </div>
+      <button class="key-toggle-btn" id="toggleKeyDrawerBtn">
+        🔑 <span>Groq AI</span>
+      </button>
+    </header>
+
+    <!-- Main Scrollable Body -->
+    <main class="main-content">
+
+      <!-- Hostel Equipment Mode selector -->
+      <div class="section-title">
+        <span>Hostel Cooking Mode</span>
+        <span style="font-size: 11px; opacity: 0.8;">Equipment Limit</span>
+      </div>
+      <div class="hostel-mode-bar" id="hostelModeBar">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Custom Input for comma-separated items -->
+      <div class="custom-input-card">
+        <div class="custom-input-row">
+          <span>✍️</span>
+          <input type="text" id="customInput" placeholder="Type extra items (e.g. dahi, bread, maggi)..." />
+          <span class="input-badge">Comma Split</span>
+        </div>
+      </div>
+
+      <!-- Search & Category Filters for 100+ items -->
+      <div class="section-title">
+        <span>Select Available Items</span>
+        <span class="selection-count" id="selectionCount">0 selected</span>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs" id="categoryTabs">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- 100+ Ingredients Grid -->
+      <div class="ingredients-grid-container">
+        <div class="ingredients-grid" id="ingredientsGrid">
+          <!-- 100+ item chips rendered dynamically -->
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Sticky Bottom Action Bar -->
+    <div class="bottom-action-bar">
+      <button class="generate-btn" id="generateBtn">
+        <span>Get AI Recipes</span>
+        <span>⚡</span>
+      </button>
+    </div>
+
+    <!-- Recipe Results Modal / Sheet -->
+    <div class="recipe-modal-overlay" id="recipeModal">
+      <div class="recipe-modal-sheet">
+        <div class="sheet-header">
+          <div class="sheet-title">🔥 Jugaad Recipes</div>
+          <button class="close-sheet-btn" id="closeSheetBtn">✕</button>
+        </div>
+        <div class="sheet-body" id="recipeSheetBody">
+          <!-- Generated recipes populated here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
