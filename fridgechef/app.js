@@ -3,8 +3,8 @@
    Powered by Groq Llama 3.1 8B Instant API & Dynamic Jugaad Engine
    ========================================================================== */
 
-// Default Groq API Key
-const API_KEY = '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';
+// Default Groq API Key (enter in settings modal or browser storage)
+const DEFAULT_GROQ_KEY = '';
 
 // --- 100+ INGREDIENTS DATASET ---
 const INGREDIENTS_DATA = [
@@ -105,8 +105,8 @@ const state = {
   equipments: new Set(['kettle', 'induction']),
   maxTime: 'any',
   recipes: [],
-  apiKey: localStorage.getItem('fridgechef_groq_key') || DEFAULT_GROQ_KEY,
-  useMock: localStorage.getItem('fridgechef_use_mock') === 'true'
+  apiKey: (function(){ try { return localStorage.getItem('fridgechef_groq_key') || DEFAULT_GROQ_KEY; } catch(e) { return DEFAULT_GROQ_KEY; } })(),
+  useMock: (function(){ try { return localStorage.getItem('fridgechef_use_mock') === 'true'; } catch(e) { return false; } })()
 };
 
 // --- DOM ELEMENTS ---
@@ -145,22 +145,30 @@ function initApp() {
   renderIngredients();
   setupEventListeners();
   updateCounters();
-  groqApiKeyInput.value = state.apiKey;
-  useMockCheckbox.checked = state.useMock;
+  if (groqApiKeyInput) groqApiKeyInput.value = state.apiKey;
+  if (useMockCheckbox) useMockCheckbox.checked = state.useMock;
 }
 
 // --- LANDING PAGE SCREEN TRANSITIONS ---
 function showMainAppScreen() {
-  landingScreen.style.display = 'none';
-  mainAppScreen.style.display = 'flex';
+  const landing = document.getElementById('landingScreen');
+  const main = document.getElementById('mainAppScreen');
+  if (landing) landing.style.display = 'none';
+  if (main) main.style.display = 'flex';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showLandingScreen() {
-  mainAppScreen.style.display = 'none';
-  landingScreen.style.display = 'flex';
+  const landing = document.getElementById('landingScreen');
+  const main = document.getElementById('mainAppScreen');
+  if (main) main.style.display = 'none';
+  if (landing) landing.style.display = 'flex';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Expose globally so inline onclick works unconditionally
+window.showMainAppScreen = showMainAppScreen;
+window.showLandingScreen = showLandingScreen;
 
 // Quick select from popular bar
 window.quickSelectPopular = function(ingredientName) {

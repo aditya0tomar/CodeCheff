@@ -236,6 +236,7 @@ body {
 .hero-main-heading .text-accent {
   color: var(--orange-primary);
   background: linear-gradient(135deg, #FF6B35, #D84315);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1310,7 +1311,7 @@ body {
 
       <!-- Main Action Launch Button -->
       <div class="cta-wrapper">
-        <button class="btn-cta-launch" id="enterAppBtn">
+        <button class="btn-cta-launch" id="enterAppBtn" onclick="showMainAppScreen()">
           <span>🌶️ Open CodeChef & Cook</span>
           <i class="ri-arrow-right-line"></i>
         </button>
@@ -1367,7 +1368,7 @@ body {
       
       <!-- Header -->
       <header class="app-header">
-        <div class="brand" id="brandHomeClick" title="Back to Home">
+        <div class="brand" id="brandHomeClick" onclick="showLandingScreen()" title="Back to Home">
           <div class="brand-badge-box">
             <div class="brand-3d-icon" style="width:38px; height:38px; font-size:20px;">🍳</div>
             <div class="brand-text-box">
